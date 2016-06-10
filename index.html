@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>Reference</title>
+    <!--link rel="stylesheet" href="ldoc.css" type="text/css" /-->
+    <link href='https://fonts.googleapis.com/css?family=Cousine' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=BenchNine:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://devilsquid.com/files/docs-base-min.css">
+    <link rel="stylesheet" href="https://devilsquid.com/files/docs-pure-min.css">
+    <link rel="stylesheet" href="https://devilsquid.com/files/docs-side-menu.css">
+    <link rel="stylesheet" href="https://devilsquid.com/files/docs-content.css">
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="layout">
+
+
+<!-- Menu -->
+
+<div id="menu">
+<div class="pure-menu">
+<div class="DS-logo"><a href="https://devilsquid.com"><img src="https://devilsquid.com/wp-content/uploads/2016/05/logotext-devilsquid_white@2x.png"></a></div>
+<br/>
+<h3>YahooWeather</h3>
+<h5>yahooweather.lua</h5>
+
+
+
+<h4>Functions</h4>
+<ul class="nowrap pure-menu-list">
+    <li class="pure-menu-item"><a href="#new">new()</a></li>
+    <li class="pure-menu-item"><a href="#yahooWeather:GetCondition">yahooWeather:GetCondition()</a></li>
+    <li class="pure-menu-item"><a href="#yahooWeather:GetForecast">yahooWeather:GetForecast()</a></li>
+    <li class="pure-menu-item"><a href="#yahooWeather:HasExpired">yahooWeather:HasExpired()</a></li>
+    <li class="pure-menu-item"><a href="#yahooWeather:RequestWeatherData">yahooWeather:RequestWeatherData()</a></li>
+</ul>
+
+
+</div><!-- .pure-menu -->
+</div><!-- #menu -->
+
+<div id="main">
+
+<div class="header">
+<h2>Get weather data from Yahoo.</h2>
+<h1>YahooWeather Module</h1>
+<p> Retrieve current weather conditions and forecasts for a location. <br><br>
+ This module is developed by <a href="https://devilssquid.com">DevilSquid</a> – your learning resource for Corona SDK.</p>
+
+    <table class="pure-table pure-table-horizontal">
+    <thead><tr><th><strong>Info</strong></th><th></th></tr></thead>
+        <tr><td><strong>Copyright</strong></td><td><a href="https://devilssquid.com">DevilSquid</a>, René Aye 2016</td></tr>
+        <tr><td><strong>License</strong></td><td> MIT<br>
+ <span style="font-size: 0.8em;">You are allowed to use the code for any private and commercial projects.
+ You have to give credits like: Free YahooWeather Module from devilsquid.com</span></td></tr>
+        <tr><td><strong>Author</strong></td><td>René Aye</td></tr>
+      <tr><td><strong>Last updated</strong></td><td>2016-06-10 11:28:32</td></tr>
+    </table>
+</div><!-- .header -->
+
+<div class="content">
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list pure-table pure-table-striped">
+	<tr>
+	<td class="name" nowrap><a href="#new">new (options, forceRequest)</a></td>
+	<td class="summary">Create a new Yahoo weather object.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#yahooWeather:GetCondition">yahooWeather:GetCondition (optDataKind, optWithUnits)</a></td>
+	<td class="summary">Read the current weather conditions from locally saved weather data</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#yahooWeather:GetForecast">yahooWeather:GetForecast (optDay, optWithUnits)</a></td>
+	<td class="summary">Read the forecast weather conditions from locally saved weather data</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#yahooWeather:HasExpired">yahooWeather:HasExpired ()</a></td>
+	<td class="summary">Checks if the weather data has been expired</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#yahooWeather:RequestWeatherData">yahooWeather:RequestWeatherData (callbackFunction)</a></td>
+	<td class="summary">Sends a request to the Yahoo server to recieve the waether data</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "new"></a>
+    <strong>new (options, forceRequest)</strong>
+    </dt>
+    <dd>
+    Create a new Yahoo weather object.  The request gets send to Yahoo server.
+ The answer with weather data gets saved to local directory, to prevent too many requests to Yahoo server
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+        <p> a table with options</p>
+
+<ul>
+<li><code>optTown</code>:           (<strong>string</strong>) the name of the town you want to request weather data for</li>
+<li><code>optStateCode</code>:       (<strong>string</strong>) the state of the town, use two letter codes like &ldquo;NI&rdquo;</li>
+<li><code>optCountryCode</code>:     (<strong>string</strong>) the country of the town, use two letter codes like &ldquo;de&rdquo;, &ldquo;us&rdquo; etc.</li>
+<li><code>optExpires</code>:         (<strong>number</strong>) how long before the weather data expires in seconds (<em>default</em>: 3600)</li>
+<li><code>optUnits</code>:           (<strong>string</strong>) metric or imperial units, use &ldquo;C&rdquo; or &ldquo;F&rdquo; (<em>default</em>: &ldquo;F&rdquo;)</li>
+<li><code>optSuperCallback</code>:  (<strong>function</strong>) an outer callback function that gets called, when the datat is ready to be used</li>
+</ul>
+
+
+        </li>
+        <li><span class="parameter">forceRequest</span>
+            <span class="types"><span class="type">bool</span></span>
+         forces a request to Yahoo&rsquo;s weather server, although the data has not been expired
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Yahoo weather object
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">
+ <span class="keyword">local</span> <span class="keyword">function</span> YahooWeatherListener( event )
+  	<span class="global">print</span>( <span class="string">"YahooWeatherListener"</span> )
+     	<span class="keyword">if</span> event.<span class="global">type</span> == <span class="string">"ready"</span> <span class="keyword">then</span>
+   		<span class="global">print</span>( <span class="string">"Temperature: "</span>, 	event.yahooweather:GetCondition(<span class="string">"temp"</span>, <span class="keyword">true</span>) )
+   		<span class="global">print</span>( <span class="string">"Condition: "</span>, 		event.yahooweather:GetCondition(<span class="string">"condition-text"</span>), event.yahooweather:GetCondition(<span class="string">"condition-code"</span>))
+   		<span class="global">print</span>( <span class="string">"Wind Chill: "</span>, 		event.yahooweather:GetCondition(<span class="string">"windchill"</span>, <span class="keyword">true</span>) )
+   		<span class="global">print</span>( <span class="string">"Wind Direction: "</span>, 	event.yahooweather:GetCondition(<span class="string">"winddirection"</span>, <span class="keyword">true</span>) )
+   		<span class="global">print</span>( <span class="string">"Wind Speed: "</span>, 		event.yahooweather:GetCondition(<span class="string">"windspeed"</span>, <span class="keyword">true</span>) )
+   		<span class="global">print</span>( <span class="string">"Humidity: "</span>, 		event.yahooweather:GetCondition(<span class="string">"humidity"</span>, <span class="keyword">true</span>) )
+   		<span class="global">print</span>( <span class="string">"Pressure: "</span>, 		event.yahooweather:GetCondition(<span class="string">"pressure"</span>, <span class="keyword">true</span>) )
+   		<span class="global">print</span>( <span class="string">"Visibility: "</span>, 		event.yahooweather:GetCondition(<span class="string">"visibility"</span>, <span class="keyword">true</span>) )
+     	<span class="keyword">end</span>
+ <span class="keyword">end</span>
+ <span class="keyword">local</span> weather = YahooWeather:new({town=<span class="string">"Barsinghausen"</span>, countryCode=<span class="string">"de"</span>, units=<span class="string">"C"</span>, callback=YahooWeatherListener })</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "yahooWeather:GetCondition"></a>
+    <strong>yahooWeather:GetCondition (optDataKind, optWithUnits)</strong>
+    </dt>
+    <dd>
+    Read the current weather conditions from locally saved weather data
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">optDataKind</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.2/manual.html#6.4">string</a></span>
+         what kind of data you want to read
+        </li>
+        <li><span class="parameter">optWithUnits</span>
+            <span class="types"><span class="type">bool</span></span>
+         true if units should be added to the return value string, default = false
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the value of the requested data
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">
+ <span class="keyword">local</span> <span class="keyword">function</span> YahooWeatherListener( event )
+  <span class="keyword">if</span> event.<span class="global">type</span> == <span class="string">"ready"</span> <span class="keyword">then</span>
+      <span class="global">print</span>( <span class="string">"Temperature"</span>, event.yahooweather:GetCondition(<span class="string">"temp"</span>, <span class="keyword">true</span>) )
+  <span class="keyword">end</span>
+ <span class="keyword">end</span>
+ <span class="keyword">local</span> weather = YahooWeather:new({town=<span class="string">"London"</span>, countryCode=<span class="string">"uk"</span>, units=<span class="string">"C"</span>, callback=YahooWeatherListener})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "yahooWeather:GetForecast"></a>
+    <strong>yahooWeather:GetForecast (optDay, optWithUnits)</strong>
+    </dt>
+    <dd>
+    Read the forecast weather conditions from locally saved weather data
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">optDay</span>
+            <span class="types"><span class="type">number</span></span>
+         number of days in the future to get the forecast for, 1=today, 2=tomorrow, 3=day after tomorrow etc, max number is 10
+        </li>
+        <li><span class="parameter">optWithUnits</span>
+            <span class="types"><span class="type">bool</span></span>
+         true if units should be added to the temperature forecast values, default = false
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <p> a table of the forecast data
+ the table contains the following fields</p>
+
+<ul>
+<li><code>code</code>:   (<strong>string</strong>) the forecast weather code</li>
+<li><code>text</code>:   (<strong>string</strong>) a short written description to the weather code</li>
+<li><code>date</code>:   (<strong>string</strong>) the date of the forecast in format &ldquo;08 Jun 2016&rdquo;</li>
+<li><code>day</code>:    (<strong>string</strong>) the three letter name of the weekday for the forecast like &ldquo;Wed&rdquo;</li>
+<li><code>high</code>:  (<strong>string</strong>) the high temperature of the forecast</li>
+<li><code>low</code>:   (<strong>string</strong>) the low temperature of the forecast</li>
+</ul>
+
+
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">
+ <span class="keyword">local</span> <span class="keyword">function</span> YahooWeatherListener( event )
+  <span class="keyword">if</span> event.<span class="global">type</span> == <span class="string">"ready"</span> <span class="keyword">then</span>
+ 		<span class="keyword">local</span> forecast = event.yahooweather:GetForecast(<span class="number">2</span>)
+ 		<span class="global">print</span>( <span class="string">"Forecast Tomorrow:"</span>, forecast.day, forecast.date)
+ 		<span class="global">print</span>( forecast.text )
+ 		<span class="global">print</span>( <span class="string">"High/Low"</span>, forecast.high, forecast.low  )
+  <span class="keyword">end</span>
+ <span class="keyword">end</span>
+ <span class="keyword">local</span> weather = YahooWeather:new({town=<span class="string">"London"</span>, countryCode=<span class="string">"uk"</span>, units=<span class="string">"C"</span>, callback=YahooWeatherListener})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "yahooWeather:HasExpired"></a>
+    <strong>yahooWeather:HasExpired ()</strong>
+    </dt>
+    <dd>
+    Checks if the weather data has been expired
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if weather data has been expired
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "yahooWeather:RequestWeatherData"></a>
+    <strong>yahooWeather:RequestWeatherData (callbackFunction)</strong>
+    </dt>
+    <dd>
+    Sends a request to the Yahoo server to recieve the waether data
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">callbackFunction</span>
+         gets called when the weather data has been loaded
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        nothing
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- .content -->
+</div> <!-- #main -->
+
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-06-10 11:28:32 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
